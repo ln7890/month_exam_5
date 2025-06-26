@@ -5,4 +5,4 @@ const categorySchema = new Schema({
   description: { type: String, required: true },
 });
 
-const categoryCollec = model("category", categorySchema);
+export const categoryCollect = model("category", categorySchema);
