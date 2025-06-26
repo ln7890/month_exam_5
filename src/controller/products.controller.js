@@ -5,6 +5,7 @@ export class productsController {
   async createProducts(req, res) {
     try {
       const { value, error } = createProductValidation(req.body);
+      const product = 
     } catch (error) {
       return handleError(res, error);
     }
