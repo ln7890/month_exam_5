@@ -6,3 +6,11 @@ export const createCategoryValidation = (data) => {
   });
   return checker.validate(data);
 };
+
+export const updateCategoryValidation = (data) => {
+  const checker = Joi.object({
+    name: Joi.string(),
+    description: Joi.string(),
+  });
+  return checker.validate(data);
+};

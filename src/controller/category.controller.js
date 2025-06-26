@@ -2,7 +2,10 @@ import { isValidObjectId } from "mongoose";
 import { categoryCollect } from "../model/category.model.js";
 import { handleError } from "../utils/error-res.js";
 import { successRes } from "../utils/success.js";
-import { createCategoryValidation } from "../validation/category.validation.js";
+import {
+  createCategoryValidation,
+  updateCategoryValidation,
+} from "../validation/category.validation.js";
 
 export class categoryClass {
   async createCategory(req, res) {
@@ -31,8 +34,34 @@ export class categoryClass {
   }
   async getCategoryById(req, res) {
     try {
-      const category = categoryClass.getCategoryById(res, req.params.id);
-      return;
+      const category = await categoryClass.getCategoryById(res, req.params.id);
+      return successRes(res, category);
+    } catch (error) {
+      return handleError(res, error);
+    }
+  }
+  async updateCategoryByid(req, res) {
+    try {
+      const { value, error } = updateCategoryValidation(req.body);
+      if (error) {
+        return handleError(res, `Err with validation`, 409);
+      }
+      console.log(value);
+      const updatedCategory = await categoryCollect.findByIdAndUpdate(
+        req.params.id,
+        value,
+        { new: true }
+      );
+      return successRes(res, updatedCategory, 200);
+    } catch (error) {
+      return handleError(res, error);
+    }
+  }
+  async deleteCategoryByid(req, res) {
+    try {
+      await categoryClass.getCategoryById(res, req.params.id);
+      await categoryCollect.findByIdAndDelete(req.params.id);
+      return successRes(res, { message: "Category removed" }, 200);
     } catch (error) {
       return handleError(res, error);
     }
