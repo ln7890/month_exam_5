@@ -11,5 +11,9 @@ const salesmanSchema = new Schema(
   },
   { timestamps: true }
 );
-
+salesmanSchema.virtual("sales", {
+  ref: "product",
+  localField: "_id",
+  foreignField: "salesman_id",
+});
 export const salesmanCollection = model("salesman", salesmanSchema);

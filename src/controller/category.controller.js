@@ -46,7 +46,6 @@ export class categoryClass {
       if (error) {
         return handleError(res, `Err with validation`, 409);
       }
-      console.log(value);
       const updatedCategory = await categoryCollect.findByIdAndUpdate(
         req.params.id,
         value,
